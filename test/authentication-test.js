@@ -1,5 +1,5 @@
 /*
- * authentication-test.js: Tests for rackspace cloudservers authentication
+ * authentication-test.js: Tests for rackspace cloudfiles authentication
  *
  * (C) 2010 Charlie Robbins
  * MIT LICENSE
