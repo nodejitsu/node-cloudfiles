@@ -23,6 +23,14 @@ helpers.assertContainer = function (container) {
   assert.isNotNull(container.bytes);
 };
 
+helpers.assertCdnContainer = function (container) {
+  helpers.assertContainer(container); 
+  assert.isTrue(typeof container.ttl === 'number');
+  assert.isTrue(typeof container.logRetention === 'boolean');
+  assert.isTrue(typeof container.cdnUri === 'string');
+  assert.isTrue(container.cdnEnabled);
+};
+
 helpers.assertFile = function (file) {
   assert.instanceOf(file, cloudfiles.StorageObject);
   assert.isNotNull(file.name);

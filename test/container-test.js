@@ -30,6 +30,30 @@ vows.describe('node-cloudfiles/containers').addBatch({
   }
 }).addBatch({
   "The node-cloudfiles client": {
+    "the createContainer() method": {
+      "when creating a container": {
+        topic: function () {
+          cloudfiles.createContainer({ name: 'test_container' }, this.callback);
+        },
+        "should return a valid container": function (err, container) {
+          helpers.assertContainer(container);
+        }
+      },
+      "when creating a CDN-enabled container": {
+        topic: function () {
+          cloudfiles.createContainer({
+            name: 'test_cdn_container',
+            cdnEnabled: true
+          }, this.callback);
+        },
+        "should return a valid container": function (err, container) {
+          helpers.assertCdnContainer(container);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
     "the getContainers() method": {
       topic: function () {
         cloudfiles.getContainers(this.callback); 
