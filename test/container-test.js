@@ -54,22 +54,68 @@ vows.describe('node-cloudfiles/containers').addBatch({
   }
 }).addBatch({
   "The node-cloudfiles client": {
-    "the getContainers() method": {
-      topic: function () {
-        cloudfiles.getContainers(this.callback); 
-      },
-      "should return a list of containers": function (err, containers) {
-        containers.forEach(function (container) {
+    "the createContainer() method": {
+      "when creating a container that already exists": {
+        topic: function () {
+          cloudfiles.createContainer({ name: 'test_container' }, this.callback);
+        },
+        "should return a valid container": function (err, container) {
           helpers.assertContainer(container);
-        });
+        }
+      },
+    },
+    "the getContainers() method": {
+      "when requesting non-CDN containers": {
+        topic: function () {
+          cloudfiles.getContainers(this.callback); 
+        },
+        "should return a list of containers": function (err, containers) {
+          assert.isArray(containers);
+          assert.length(containers, 2);
+          containers.forEach(function (container) {
+            helpers.assertContainer(container);
+          });
+        }
+      },
+      "when requesting CDN containers": {
+        topic: function () {
+          cloudfiles.getContainers(true, this.callback); 
+        },
+        "should return a list of containers": function (err, containers) {
+          assert.isArray(containers);
+          assert.length(containers, 1);
+          containers.forEach(function (container) {
+            helpers.assertContainer(container);
+          });
+        }
       }
     },
     "the getContainer() method": {
-      topic: function () {
-        cloudfiles.getContainer('test_container', this.callback); 
+      "when requesting non-CDN container": {
+        topic: function () {
+          cloudfiles.getContainer('test_container', this.callback); 
+        },
+        "should return a valid container": function (err, container) {
+          helpers.assertContainer(container);
+        }
       },
-      "should return a valid container": function (err, container) {
-        helpers.assertContainer(container);
+      "when requesting CDN container": {
+        "with a valid CDN container": {
+          topic: function () {
+            cloudfiles.getContainer('test_cdn_container', true, this.callback); 
+          },
+          "should return a valid container": function (err, container) {
+            helpers.assertContainer(container);
+          }
+        },
+        "with an invalid CDN container": {
+          topic: function () {
+            cloudfiles.getContainer('test_container', true, this.callback); 
+          },
+          "should respond with an error": function (err, container) {
+            assert.isNotNull(err);
+          }
+        }
       }
     }
   }
