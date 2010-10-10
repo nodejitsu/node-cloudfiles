@@ -9,7 +9,6 @@
 var path = require('path'),
     fs = require('fs'),
     vows = require('vows'),
-    eyes = require('eyes'),
     helpers = require('./helpers')
     assert = require('assert');
     
