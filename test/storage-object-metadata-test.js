@@ -41,27 +41,6 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
       }
-    },
-    "the addFile() method called a second time": {
-      topic: function () {
-        cloudfiles.addFile('test_container', 'file2.txt', sampleData, this.callback);
-      },
-      "should respond with true": function (err, uploaded) {
-        assert.isTrue(uploaded);
-      }
-    }
-  }
-}).addBatch({
-  "The node-cloudfiles client": {
-    "the getFiles() method": {
-      topic: function () {
-        cloudfiles.getFiles('test_container', this.callback);
-      },
-      "should return a valid list of files": function (err, files) {
-        files.forEach(function (file) {
-          helpers.assertFile(file);
-        });
-      }
     }
   }
 }).addBatch({
@@ -69,13 +48,35 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
     "the getFile() method": {
       "for a file that exists": {
         topic: function () {
-          cloudfiles.getFile('test_container', 'file2.txt', this.callback);
+          cloudfiles.getFile('test_container', 'file1.txt', this.callback);
         },
         "should return a valid StorageObject": function (err, file) {
           assert.equal(file.data.length, sampleData.length);
           helpers.assertFile(file);
           testData.file = file;
         }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "the addMetadata() method": {
+      topic: function () {
+        testData.file.addMetadata({ "ninja": "true" }, this.callback); 
+      },
+      "should response with true": function (err, added) {
+        assert.isTrue(added);
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "the getMetadata() method": {
+      topic: function () {
+        testData.file.getMetadata(this.callback); 
+      },
+      "should response with true": function (err, added) {
+        assert.isTrue(added);
       }
     }
   }
@@ -88,21 +89,6 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
         },
         "should return true": function (err, deleted) {
           assert.isTrue(deleted);
-        }
-      }
-    }
-  }
-}).addBatch({
-  "The node-cloudfiles client": {
-    "an instance of a StorageObject": {
-      "the destroy() method": {
-        "for a file that exists": {
-          topic: function () {
-            testData.file.destroy(this.callback);
-          },
-          "should return true": function (err, deleted) {
-            assert.isTrue(deleted);
-          }
         }
       }
     }

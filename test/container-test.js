@@ -7,6 +7,7 @@
  */
  
 var path = require('path'),
+    fs = require('fs'),
     vows = require('vows'),
     eyes = require('eyes'),
     helpers = require('./helpers')
@@ -15,6 +16,9 @@ var path = require('path'),
 require.paths.unshift(path.join(__dirname, '..', 'lib'));
 
 var cloudfiles = require('cloudfiles');
+
+var sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString(),
+    testData = {};
 
 vows.describe('node-cloudfiles/containers').addBatch({
   "The node-cloudfiles client": {
@@ -97,6 +101,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should return a valid container": function (err, container) {
           helpers.assertContainer(container);
+          testData.container = container;
         }
       },
       "when requesting CDN container": {
@@ -115,6 +120,48 @@ vows.describe('node-cloudfiles/containers').addBatch({
           "should respond with an error": function (err, container) {
             assert.isNotNull(err);
           }
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the addFile() method": {
+        topic: function () {
+          testData.container.addFile('file1.txt', sampleData, this.callback);
+        },
+        "should response with true": function (err, added) {
+          assert.isTrue(added);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the getFiles() method": {
+        topic: function () {
+          testData.container.getFiles(this.callback);
+        },
+        "should response with a list of files": function (err, files) {
+          assert.isArray(files);
+          assert.length(files, 1); 
+          assert.isArray(testData.container.files);
+          assert.length(testData.container.files, 1);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the removeFile() method": {
+        topic: function () {
+          testData.container.removeFile('file1.txt', this.callback);
+        },
+        "should response with true": function (err, removed) {
+          assert.isTrue(removed);
         }
       }
     }
