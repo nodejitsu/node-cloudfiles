@@ -9,6 +9,7 @@
 var path = require('path'),
     fs = require('fs'),
     vows = require('vows'),
+    eyes = require('eyes'),
     helpers = require('./helpers')
     assert = require('assert');
     
@@ -128,10 +129,10 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "an instance of a Container object": {
       "the addFile() method": {
         topic: function () {
-          testData.container.addFile('file1.txt', sampleData, this.callback);
+          cloudfiles.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
         },
-        "should response with true": function (err, added) {
-          assert.isTrue(added);
+        "should respond with true": function (err, uploaded) {
+          assert.isTrue(uploaded);
         }
       }
     }

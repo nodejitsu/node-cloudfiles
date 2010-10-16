@@ -35,7 +35,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
   "The node-cloudfiles client": {
     "the addFile() method": {
       topic: function () {
-        cloudfiles.addFile('test_container', 'file1.txt', sampleData, this.callback);
+        cloudfiles.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
       },
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);

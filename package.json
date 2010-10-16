@@ -1,7 +1,7 @@
 {
   "name": "cloudfiles",
-  "description": "A client implementation for Rackspace CloudFIles in node.js",
-  "version": "0.1.0",
+  "description": "A client implementation for Rackspace CloudFiles in node.js",
+  "version": "0.1.1",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "repository": {
       "type": "git",
