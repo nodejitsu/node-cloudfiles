@@ -71,9 +71,29 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
           cloudfiles.getFile('test_container', 'file2.txt', this.callback);
         },
         "should return a valid StorageObject": function (err, file) {
-          assert.equal(file.data.length, sampleData.length);
           helpers.assertFile(file);
           testData.file = file;
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of StorageObject": {
+      "the save() method": {
+        topic: function () {
+          var self = this;
+          testData.file.save({ local: path.join(__dirname, 'data', 'fillerama2.txt') }, function (err, filename) {
+            if (err) {
+              self.callback(err);
+            }
+            
+            fs.stat(filename, self.callback)
+          });
+        },
+        "should write the file to the specified location": function (err, stats) {
+          assert.isNull(err);
+          assert.isNotNull(stats);
         }
       }
     }
