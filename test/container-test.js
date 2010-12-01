@@ -143,6 +143,88 @@ vows.describe('node-cloudfiles/containers').addBatch({
 }).addBatch({
   "The node-cloudfiles client": {
     "an instance of a Container object": {
+      "the getFiles(true) method": {
+        topic: function () {
+          testData.container.getFiles(true, this.callback);
+        },
+        "should response with a list of files with content": function (err, files) {
+          assert.isArray(files);
+          assert.length(files, 1); 
+          assert.isArray(testData.container.files);
+          assert.length(testData.container.files, 1);
+          assert.isNotNull(files[0].local);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the getFiles(new RegExp(...)) method": {
+        topic: function () {
+          testData.container.getFiles(/^file/, this.callback);
+        },
+        "should response with a list of files with content": function (err, files) {
+          assert.isArray(files);
+          assert.length(files, 1); 
+          assert.isArray(testData.container.files);
+          assert.length(testData.container.files, 1);
+          assert.isTrue(/^file/.test(files[0].name));
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the getFiles(new RegExp(...) with no matches) method": {
+        topic: function () {
+          testData.container.getFiles(/^no_matches/, this.callback);
+        },
+        "should response with a empty list": function (err, files) {
+          assert.isArray(files);
+          assert.length(files, 0); 
+          assert.isArray(testData.container.files);
+          assert.length(testData.container.files, 0);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the getFiles([filenames]) method": {
+        topic: function () {
+          testData.container.getFiles(['file1.txt'], this.callback);
+        },
+        "should response with a list of files with content": function (err, files) {
+          assert.isArray(files);
+          assert.length(files, 1); 
+          assert.isArray(testData.container.files);
+          assert.length(testData.container.files, 1);
+          assert.equal(files[0].name, 'file1.txt');
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
+      "the getFiles([not-existing-filenames]) method": {
+        topic: function () {
+          testData.container.getFiles(['not-exists.txt'], this.callback);
+        },
+        "should response with a error": function (err, files) {
+          assert.isArray(err);
+          assert.length(err, 1); 
+          assert.instanceOf(err[0], Error);          
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
+    "an instance of a Container object": {
       "the removeFile() method": {
         topic: function () {
           testData.container.removeFile('file1.txt', this.callback);
