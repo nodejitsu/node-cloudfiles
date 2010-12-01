@@ -5,39 +5,26 @@
  * MIT LICENSE
  *
  */
+
+require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
  
 var path = require('path'),
     fs = require('fs'),
     vows = require('vows'),
     eyes = require('eyes'),
-    helpers = require('./helpers')
-    assert = require('assert');
-    
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
+    assert = require('assert'),
+    cloudfiles = require('cloudfiles'),
+    helpers = require('./helpers');
 
-var cloudfiles = require('cloudfiles');
-
-var sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString(),
-    testData = {};
+var testData = {}, client = helpers.createClient(),
+    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString();
 
 vows.describe('node-cloudfiles/containers').addBatch({
-  "The node-cloudfiles client": {
-    "when authenticated": {
-      topic: function () {
-        var options = cloudfiles.config
-        cloudfiles.setAuth(options.auth, this.callback);
-      },
-      "should return with 204": function (err, res) {
-        assert.equal(res.statusCode, 204);
-      }
-    }
-  }
-}).addBatch({
   "The node-cloudfiles client": {
     "the createContainer() method": {
       "when creating a container": {
         topic: function () {
-          cloudfiles.createContainer({ name: 'test_container' }, this.callback);
+          client.createContainer({ name: 'test_container' }, this.callback);
         },
         "should return a valid container": function (err, container) {
           helpers.assertContainer(container);
@@ -45,7 +32,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
       },
       "when creating a CDN-enabled container": {
         topic: function () {
-          cloudfiles.createContainer({
+          client.createContainer({
             name: 'test_cdn_container',
             cdnEnabled: true
           }, this.callback);
@@ -61,7 +48,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "the createContainer() method": {
       "when creating a container that already exists": {
         topic: function () {
-          cloudfiles.createContainer({ name: 'test_container' }, this.callback);
+          client.createContainer({ name: 'test_container' }, this.callback);
         },
         "should return a valid container": function (err, container) {
           helpers.assertContainer(container);
@@ -71,7 +58,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "the getContainers() method": {
       "when requesting non-CDN containers": {
         topic: function () {
-          cloudfiles.getContainers(this.callback); 
+          client.getContainers(this.callback); 
         },
         "should return a list of containers": function (err, containers) {
           assert.isArray(containers);
@@ -83,7 +70,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
       },
       "when requesting CDN containers": {
         topic: function () {
-          cloudfiles.getContainers(true, this.callback); 
+          client.getContainers(true, this.callback); 
         },
         "should return a list of containers": function (err, containers) {
           assert.isArray(containers);
@@ -97,7 +84,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "the getContainer() method": {
       "when requesting non-CDN container": {
         topic: function () {
-          cloudfiles.getContainer('test_container', this.callback); 
+          client.getContainer('test_container', this.callback); 
         },
         "should return a valid container": function (err, container) {
           helpers.assertContainer(container);
@@ -107,7 +94,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
       "when requesting CDN container": {
         "with a valid CDN container": {
           topic: function () {
-            cloudfiles.getContainer('test_cdn_container', true, this.callback); 
+            client.getContainer('test_cdn_container', true, this.callback); 
           },
           "should return a valid container": function (err, container) {
             helpers.assertContainer(container);
@@ -115,7 +102,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "with an invalid CDN container": {
           topic: function () {
-            cloudfiles.getContainer('test_container', true, this.callback); 
+            client.getContainer('test_container', true, this.callback); 
           },
           "should respond with an error": function (err, container) {
             assert.isNotNull(err);
@@ -129,7 +116,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "an instance of a Container object": {
       "the addFile() method": {
         topic: function () {
-          cloudfiles.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+          client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
         },
         "should respond with true": function (err, uploaded) {
           assert.isTrue(uploaded);

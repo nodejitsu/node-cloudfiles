@@ -5,37 +5,24 @@
  * MIT LICENSE
  *
  */
+
+require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
  
 var path = require('path'),
     vows = require('vows'),
     fs = require('fs'),
-    helpers = require('./helpers')
-    assert = require('assert');
-    
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
+    assert = require('assert'),
+    cloudfiles = require('cloudfiles'),
+    helpers = require('./helpers');
 
-var cloudfiles = require('cloudfiles');
-
-var sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString(),
-    testData = {};
+var testData = {}, client = helpers.createClient(), 
+    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString();
 
 vows.describe('node-cloudfiles/storage-object').addBatch({
   "The node-cloudfiles client": {
-    "when authenticated": {
-      topic: function () {
-        var options = cloudfiles.config
-        cloudfiles.setAuth(options.auth, this.callback);
-      },
-      "should return with 204": function (err, res) {
-        assert.equal(res.statusCode, 204);
-      }
-    }
-  }
-}).addBatch({
-  "The node-cloudfiles client": {
     "the addFile() method": {
       topic: function () {
-        cloudfiles.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+        client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
       },
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
@@ -43,7 +30,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
     },
     "the addFile() method called a second time": {
       topic: function () {
-        cloudfiles.addFile('test_container', 'file2.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+        client.addFile('test_container', 'file2.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
       },
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
@@ -54,7 +41,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
   "The node-cloudfiles client": {
     "the getFiles() method": {
       topic: function () {
-        cloudfiles.getFiles('test_container', this.callback);
+        client.getFiles('test_container', this.callback);
       },
       "should return a valid list of files": function (err, files) {
         files.forEach(function (file) {
@@ -68,7 +55,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
     "the getFile() method": {
       "for a file that exists": {
         topic: function () {
-          cloudfiles.getFile('test_container', 'file2.txt', this.callback);
+          client.getFile('test_container', 'file2.txt', this.callback);
         },
         "should return a valid StorageObject": function (err, file) {
           helpers.assertFile(file);
@@ -84,10 +71,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
         topic: function () {
           var self = this;
           testData.file.save({ local: path.join(__dirname, 'data', 'fillerama2.txt') }, function (err, filename) {
-            if (err) {
-              self.callback(err);
-            }
-            
+            if (err) return self.callback(err);
             fs.stat(filename, self.callback)
           });
         },
@@ -103,7 +87,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
     "the destroyFile() method": {
       "for a file that exists": {
         topic: function () {
-          cloudfiles.destroyFile('test_container', 'file1.txt', this.callback);
+          client.destroyFile('test_container', 'file1.txt', this.callback);
         },
         "should return true": function (err, deleted) {
           assert.isTrue(deleted);

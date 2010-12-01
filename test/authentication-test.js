@@ -5,28 +5,22 @@
  * MIT LICENSE
  *
  */
+
+require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
  
 var path = require('path'),
     vows = require('vows'),
-    assert = require('assert');
+    assert = require('assert'),
+    helpers = require('./helpers'),
+    cloudfiles = require('cloudfiles');
     
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
-
-var cloudfiles = require('cloudfiles');
+var client = helpers.createClient();
     
 vows.describe('node-cloudfiles/authentication').addBatch({
   "The node-cloudfiles client": {
-    "should have core methods defined": function() {
-      assert.isObject(cloudfiles.config.auth);
-      assert.include(cloudfiles.config.auth, 'username');
-      assert.include(cloudfiles.config.auth, 'apiKey');
-      
-      assert.isFunction(cloudfiles.setAuth);
-    },
     "with a valid username and api key": {
       topic: function () {
-        var options = cloudfiles.config;
-        cloudfiles.setAuth(options.auth, this.callback);
+        client.setAuth(this.callback);
       },
       "should respond with 204 and appropriate headers": function (err, res) {
         assert.equal(res.statusCode, 204); 
@@ -37,21 +31,22 @@ vows.describe('node-cloudfiles/authentication').addBatch({
         assert.include(res.headers, 'x-auth-token');
       },
       "should update the config with appropriate urls": function (err, res) {
-        var config = cloudfiles.config;
-        assert.equal(res.headers['x-server-management-url'], config.serverUrl);
-        assert.equal(res.headers['x-storage-url'], config.storageUrl);
-        assert.equal(res.headers['x-cdn-management-url'], config.cdnUrl);
-        assert.equal(res.headers['x-auth-token'], config.authToken);
+        assert.equal(res.headers['x-server-management-url'], client.config.serverUrl);
+        assert.equal(res.headers['x-storage-url'], client.config.storageUrl);
+        assert.equal(res.headers['x-cdn-management-url'], client.config.cdnUrl);
+        assert.equal(res.headers['x-auth-token'], client.config.authToken);
       }
     },
     "with an invalid username and api key": {
       topic: function () {
-        var options = { 
-          username: 'invalid-username', 
-          apiKey: 'invalid-apikey'
-        };
+        var invalidClient = cloudfiles.createClient({ 
+          auth: {
+            username: 'invalid-username', 
+            apiKey: 'invalid-apikey'
+          }
+        });
         
-        cloudfiles.setAuth(options, this.callback);
+        invalidClient.setAuth(this.callback);
       },
       "should respond with 401": function (err, res) {
         assert.equal(res.statusCode, 401);

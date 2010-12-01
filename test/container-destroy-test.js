@@ -5,34 +5,23 @@
  * MIT LICENSE
  *
  */
- 
+
+require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
+
 var path = require('path'),
     vows = require('vows'),
-    helpers = require('./helpers')
-    assert = require('assert');
-    
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
+    assert = require('assert'),
+    cloudfiles = require('cloudfiles'),
+    helpers = require('./helpers');
 
-var cloudfiles = require('cloudfiles');
+var client = helpers.createClient();
 
 vows.describe('node-cloudfiles/containers').addBatch({
-  "The node-cloudfiles client": {
-    "when authenticated": {
-      topic: function () {
-        var options = cloudfiles.config
-        cloudfiles.setAuth(options.auth, this.callback);
-      },
-      "should return with 204": function (err, res) {
-        assert.equal(res.statusCode, 204);
-      }
-    }
-  }
-}).addBatch({
   "The node-cloudfiles client": {
     "the destroyContainer() method": {
       "when deleting test_container": {
         topic: function () {
-          cloudfiles.destroyContainer('test_container', this.callback)
+          client.destroyContainer('test_container', this.callback)
         },
         "should return true": function (err, success) {
           assert.isTrue(success);
@@ -40,7 +29,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
       },
       "when deleting test_cdn_container": {
         topic: function () {
-          cloudfiles.destroyContainer('test_cdn_container', this.callback)
+          client.destroyContainer('test_cdn_container', this.callback)
         },
         "should return true": function (err, success) {
           assert.isTrue(success);

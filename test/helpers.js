@@ -5,16 +5,36 @@
  * MIT LICENSE
  *
  */
+
+require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
  
-var path = require('path'),
+var util = require('util'),
+    fs = require('fs'),
+    path = require('path'),
     vows = require('vows'),
-    assert = require('assert');
-    
-require.paths.unshift(path.join(__dirname, '..', 'lib'));
+    assert = require('assert'),
+    cloudfiles = require('cloudfiles');
 
-var cloudfiles = require('cloudfiles');
+var testConfig, client, helpers = exports;
 
-var helpers = exports;
+helpers.loadConfig = function () {
+  var config = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'test-config.json')).toString());
+  if (config.auth.username === 'test-username'
+      || config.auth.apiKey === 'test-apiKey') {
+    util.puts('Config file test-config.json must be updated with valid data before running tests');
+    process.exit(0);
+  }
+  
+  testConfig = config;
+  return config;
+};
+
+helpers.createClient = function () {
+  if (!testConfig) helpers.loadConfig();
+  if (!client) client = cloudfiles.createClient(testConfig);
+  
+  return client;
+};
 
 helpers.assertContainer = function (container) {
   assert.instanceOf(container, cloudfiles.Container);
