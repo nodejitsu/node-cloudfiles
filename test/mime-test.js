@@ -1,7 +1,7 @@
 /*
  * mime-test.js: Tests for mime type indentification
  *
- * (C) 2010 Charlie Robbins
+ * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE
  *
  */

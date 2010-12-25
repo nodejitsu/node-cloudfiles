@@ -1,7 +1,7 @@
 /*
  * authentication-test.js: Tests for rackspace cloudfiles authentication
  *
- * (C) 2010 Charlie Robbins
+ * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE
  *
  */
