@@ -72,7 +72,17 @@ Each Container has a set of 'StorageObjects' (or files) which can be retrieved v
 1. Implement Storage Object metadata APIs.  
 
 ## Run Tests
-All of the node-cloudfiles tests are written in [vows][2], and cover all of the use cases described above.
+All of the node-cloudservers tests are written in [vows][2], and cover all of the use cases described above. You will need to add your Rackspace API username and API key to test/data/test-config.json before running tests:
+<pre>
+  {
+    "auth": {
+      "username": "your-username",
+      "apiKey": "your-apikey"
+    }
+  }
+</pre>
+
+Once you have valid Rackspace credentials you can run tests with [vows][2]:
 <pre>
   vows test/*-test.js --spec
 </pre>
