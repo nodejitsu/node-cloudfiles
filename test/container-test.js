@@ -11,7 +11,6 @@ require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
 var path = require('path'),
     fs = require('fs'),
     vows = require('vows'),
-    eyes = require('eyes'),
     assert = require('assert'),
     cloudfiles = require('cloudfiles'),
     helpers = require('./helpers');
