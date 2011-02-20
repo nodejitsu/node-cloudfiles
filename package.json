@@ -1,7 +1,7 @@
 {
   "name": "cloudfiles",
   "description": "A client implementation for Rackspace CloudFiles in node.js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "author": "Charlie Robbins <charlie.robbins@gmail.com>",
   "contributors": [
     { "name": "Fedor Indutny", "email": "fedor.indutny@gmail.com" }
@@ -12,9 +12,10 @@
   },
   "keywords": ["cloud computing", "api", "rackspace cloud", "cloudfiles"],
   "dependencies": {
-    "request": ">= 0.10.0"
+    "request": ">= 1.9.0",
+    "vows": "0.5.6"
   },
   "main": "./lib/cloudfiles",
   "scripts": { "test": "vows test/*-test.js --spec" },
-  "engines": { "node": ">= 0.2.0" }
+  "engines": { "node": ">= 0.4.0" }
 }
