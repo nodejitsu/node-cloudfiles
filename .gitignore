@@ -1,3 +1,4 @@
+.DS_Store
 .cache/
 .cache/*
 test/data/test-config.json
