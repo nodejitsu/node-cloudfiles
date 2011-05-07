@@ -58,6 +58,8 @@ helpers.assertCdnContainer = function (container) {
   assert.isTrue(typeof container.ttl === 'number');
   assert.isTrue(typeof container.logRetention === 'boolean');
   assert.isTrue(typeof container.cdnUri === 'string');
+  assert.isTrue(typeof container.cdnSslUri === 'string');
+  assert.ok(container.cdnSslUri.match(/^https:/));
   assert.isTrue(container.cdnEnabled);
 };
 
