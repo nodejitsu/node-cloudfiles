@@ -38,7 +38,7 @@ Rackspace Cloudfiles divides files into 'Containers'. These are very similar to 
 
 <pre>
   // Creating a container
-  client.createContainer({ name: 'myContainer' }, function (err, container) {
+  client.createContainer('myContainer', function (err, container) {
     // Listing files in the Container 
     container.getFiles(function (err, files) {
       
@@ -65,6 +65,22 @@ Each Container has a set of 'StorageObjects' (or files) which can be retrieved v
     });
     
   });
+</pre>
+
+## Authentication Service
+
+Use the 'host' key in the auth configuration to specify the url to use for authentication:
+
+<pre>
+  var cloudfiles = require('cloudfiles');
+  var config = {
+    auth : {
+      username: 'your-username',
+      apiKey: 'your-api-key',
+	  host : "lon.auth.api.rackspacecloud.com"
+    }
+  };
+  var client = cloudfiles.createClient(config);
 </pre>
 
 ## Roadmap
