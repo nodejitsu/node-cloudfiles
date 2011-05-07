@@ -36,7 +36,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
             cdnEnabled: true
           }), this.callback);
         },
-        "should return a valid container": function (err, container) {
+        "should return a valid cdn container": function (err, container) {
           helpers.assertCdnContainer(container);
         }
       }
@@ -61,7 +61,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should return a list of containers": function (err, containers) {
           assert.isArray(containers);
-          assert.length(containers, 2);
+          assert.equal(helpers.countTestContainers(containers),2);
           containers.forEach(function (container) {
             helpers.assertContainer(container);
           });
@@ -71,11 +71,11 @@ vows.describe('node-cloudfiles/containers').addBatch({
         topic: function () {
           client.getContainers(true, this.callback); 
         },
-        "should return a list of containers": function (err, containers) {
+        "should return a list of cdn containers": function (err, containers) {
           assert.isArray(containers);
-          assert.length(containers, 1);
+          assert.equal(helpers.countTestContainers(containers), 1);
           containers.forEach(function (container) {
-            helpers.assertContainer(container);
+            helpers.assertCdnContainer(container);
           });
         }
       }
@@ -95,8 +95,8 @@ vows.describe('node-cloudfiles/containers').addBatch({
           topic: function () {
             client.getContainer('test_cdn_container', true, this.callback); 
           },
-          "should return a valid container": function (err, container) {
-            helpers.assertContainer(container);
+          "should return a valid cdn container": function (err, container) {
+            helpers.assertCdnContainer(container);
           }
         },
         "with an invalid CDN container": {

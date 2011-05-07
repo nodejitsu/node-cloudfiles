@@ -71,3 +71,14 @@ helpers.assertFile = function (file) {
   assert.isNotNull(file.lastModified);
   assert.isNotNull(file.contentType);
 }
+
+helpers.countTestContainers = function(containers){
+	return containers.reduce(function(count,container){
+		if(container.name == "test_container" || container.name == "test_cdn_container"){
+			count++;
+		}
+		return count;
+	},0);
+}
+
+
