@@ -77,7 +77,7 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
     auth : {
       username: 'your-username',
       apiKey: 'your-api-key',
-	  host : "lon.auth.api.rackspacecloud.com"
+      host : "lon.auth.api.rackspacecloud.com"
     }
   };
   var client = cloudfiles.createClient(config);
