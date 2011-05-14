@@ -51,6 +51,6 @@ vows.describe('node-cloudfiles/authentication').addBatch({
       "should respond with 401": function (err, res) {
         assert.equal(res.statusCode, 401);
       }
-    }
+    },
   }
 }).export(module);

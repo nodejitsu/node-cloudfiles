@@ -58,6 +58,8 @@ helpers.assertCdnContainer = function (container) {
   assert.isTrue(typeof container.ttl === 'number');
   assert.isTrue(typeof container.logRetention === 'boolean');
   assert.isTrue(typeof container.cdnUri === 'string');
+  assert.isTrue(typeof container.cdnSslUri === 'string');
+  assert.ok(container.cdnSslUri.match(/^https:/));
   assert.isTrue(container.cdnEnabled);
 };
 
@@ -69,3 +71,14 @@ helpers.assertFile = function (file) {
   assert.isNotNull(file.lastModified);
   assert.isNotNull(file.contentType);
 }
+
+helpers.countTestContainers = function(containers){
+	return containers.reduce(function(count,container){
+		if(container.name == "test_container" || container.name == "test_cdn_container"){
+			count++;
+		}
+		return count;
+	},0);
+}
+
+
