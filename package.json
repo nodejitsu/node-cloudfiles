@@ -7,15 +7,17 @@
     { "name": "Fedor Indutny", "email": "fedor.indutny@gmail.com" }
   ],
   "repository": {
-      "type": "git",
-      "url": "http://github.com/nodejitsu/node-cloudfiles.git" 
+    "type": "git",
+    "url": "http://github.com/nodejitsu/node-cloudfiles.git" 
   },
   "keywords": ["cloud computing", "api", "rackspace cloud", "cloudfiles"],
   "dependencies": {
-    "request": ">= 1.9.0",
-    "vows": ">= 0.5.6"
+    "request": ">= 1.9.x"
+  },
+  "devDependencies": {
+    "vows": ">= 0.5.x"
   },
   "main": "./lib/cloudfiles",
   "scripts": { "test": "vows test/*-test.js --spec" },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": { "node": ">= 0.4.x" }
 }
