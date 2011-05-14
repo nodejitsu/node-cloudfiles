@@ -16,7 +16,7 @@ var path = require('path'),
     helpers = require('./helpers');
 
 var testData = {}, client = helpers.createClient(),
-    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString();
+    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')).toString();
 
 vows.describe('node-cloudfiles/containers').addBatch({
   "The node-cloudfiles client": {
@@ -115,7 +115,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "an instance of a Container object": {
       "the addFile() method": {
         topic: function () {
-          client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+          client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
         },
         "should respond with true": function (err, uploaded) {
           assert.isTrue(uploaded);

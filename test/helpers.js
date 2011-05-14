@@ -19,7 +19,7 @@ var testConfig, client, helpers = exports;
 
 helpers.loadConfig = function () {
   try {
-    var configFile = path.join(__dirname, 'data', 'test-config.json'),
+    var configFile = path.join(__dirname, 'fixtures', 'test-config.json'),
         stats = fs.statSync(configFile),
         config = JSON.parse(fs.readFileSync(configFile).toString());
     
@@ -70,15 +70,13 @@ helpers.assertFile = function (file) {
   assert.isNotNull(file.hash);
   assert.isNotNull(file.lastModified);
   assert.isNotNull(file.contentType);
-}
+};
 
-helpers.countTestContainers = function(containers){
-	return containers.reduce(function(count,container){
-		if(container.name == "test_container" || container.name == "test_cdn_container"){
+helpers.countTestContainers = function (containers) {
+	return containers.reduce(function (count,container) {
+		if (container.name == "test_container" || container.name == "test_cdn_container") {
 			count++;
 		}
 		return count;
-	},0);
-}
-
-
+	}, 0);
+};

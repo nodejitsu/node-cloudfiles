@@ -16,13 +16,13 @@ var path = require('path'),
     helpers = require('./helpers');
 
 var testData = {}, client = helpers.createClient(), 
-    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'data', 'fillerama.txt')).toString();
+    sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')).toString();
 
 vows.describe('node-cloudfiles/storage-object').addBatch({
   "The node-cloudfiles client": {
     "the addFile() method": {
       topic: function () {
-        client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+        client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
       },
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
@@ -30,7 +30,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
     },
     "the addFile() method called a second time": {
       topic: function () {
-        client.addFile('test_container', 'file2.txt', path.join(__dirname, '..', 'test', 'data', 'fillerama.txt'), this.callback);
+        client.addFile('test_container', 'file2.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
       },
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
@@ -70,7 +70,7 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       "the save() method": {
         topic: function () {
           var self = this;
-          testData.file.save({ local: path.join(__dirname, 'data', 'fillerama2.txt') }, function (err, filename) {
+          testData.file.save({ local: path.join(__dirname, 'fixtures', 'fillerama2.txt') }, function (err, filename) {
             if (err) return self.callback(err);
             fs.stat(filename, self.callback)
           });

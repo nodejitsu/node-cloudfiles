@@ -1,4 +1,6 @@
 .DS_Store
 .cache/
 .cache/*
-test/data/test-config.json
+test/fixtures/test-config.json
+node_modules
+npm-debug.log
