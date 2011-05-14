@@ -104,7 +104,7 @@ Once you have valid Rackspace credentials you can run tests with [vows][2]:
 </pre>
 
 #### Author: [Charlie Robbins](http://www.charlierobbins.com)
-#### Contributors: [Fedor Indutny](http://github.com/donnerjack13589)
+#### Contributors: [Fedor Indutny](http://github.com/donnerjack13589), [aaronds](https://github.com/aaronds)
 
 [0]: http://docs.rackspacecloud.com/files/api/cf-devguide-latest.pdf
 [1]: http://nodejitsu.com
