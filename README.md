@@ -88,7 +88,7 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
 1. Implement Storage Object metadata APIs.  
 
 ## Run Tests
-All of the node-cloudservers tests are written in [vows][2], and cover all of the use cases described above. You will need to add your Rackspace API username and API key to test/data/test-config.json before running tests:
+All of the node-cloudservers tests are written in [vows][2], and cover all of the use cases described above. You will need to add your Rackspace API username and API key to test/fixtures/test-config.json before running tests:
 <pre>
   {
     "auth": {
