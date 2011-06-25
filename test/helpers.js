@@ -34,7 +34,7 @@ helpers.loadConfig = function () {
     
   }
   catch (ex) {
-    util.puts('Config file test/data/test-config.json must be created with valid data before running tests.');
+    util.puts('Config file test/fixtures/test-config.json must be created with valid data before running tests.');
     process.exit(0);
   }  
 };
