@@ -21,7 +21,11 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
   "The node-cloudfiles client": {
     "the addFile() method with options": {
       topic: function () {
-        var options = { contentEncoding : 'gzip' };
+        var options = {
+            headers : {
+                'Content-Encoding': 'gzip'
+            }
+        };
         client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), options, this.callback);
       },
       "should respond with true": function (err, uploaded) {

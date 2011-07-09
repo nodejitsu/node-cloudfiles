@@ -22,7 +22,7 @@ helpers.loadConfig = function () {
     var configFile = path.join(__dirname, 'fixtures', 'test-config.json'),
         stats = fs.statSync(configFile),
         config = JSON.parse(fs.readFileSync(configFile).toString());
-    
+
     if (config.auth.username === 'test-username'
         || config.auth.apiKey === 'test-apiKey') {
       util.puts('Config file test-config.json must be updated with valid data before running tests.');
