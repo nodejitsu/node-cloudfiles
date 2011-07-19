@@ -35,6 +35,17 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       "should respond with true": function (err, uploaded) {
         assert.isTrue(uploaded);
       }
+    },
+    "the addFile() method with a pre-provided read stream": {
+      topic: function () {
+        var fileName = path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt');
+        var readStream = fs.createReadStream(fileName);
+        var options = { headers: {'Content-Length': fs.statSync(fileName).size }};
+        client.addFileFromStream('test_container', 'file3.txt', readStream, options, this.callback);
+      },
+      "should respond with true": function (err, uploaded) {
+        assert.isTrue(uploaded);
+      }
     }
   }
 }).addBatch({
