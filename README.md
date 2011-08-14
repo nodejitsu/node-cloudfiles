@@ -10,7 +10,7 @@ A client implementation for Rackspace CloudFiles in node.js
 ```
 
 ### Installing node-cloudfiles
-``` js 
+``` bash
   $ npm install cloudfiles
 ```
 
@@ -33,7 +33,7 @@ Before we can do anything with cloudfiles, we have to create a client with valid
   };
   
   var client = cloudfiles.createClient(config);
-``` js 
+```
 
 ### Working with Containers
 Rackspace Cloudfiles divides files into 'Containers'. These are very similar to S3 Buckets if you are more familiar with Amazon. There are a couple of simple operations exposed by node-cloudfiles:
@@ -102,7 +102,7 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
 ## Run Tests
 All of the node-cloudservers tests are written in [vows][2], and cover all of the use cases described above. You will need to add your Rackspace API username and API key to test/fixtures/test-config.json before running tests:
 
-``` json
+``` js
   {
     "auth": {
       "username": "your-username",
