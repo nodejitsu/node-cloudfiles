@@ -5,14 +5,14 @@ A client implementation for Rackspace CloudFiles in node.js
 ## Installation
 
 ### Installing npm (node package manager)
-<pre>
-  curl http://npmjs.org/install.sh | sh
-</pre>
+``` bash
+  $ curl http://npmjs.org/install.sh | sh
+```
 
 ### Installing node-cloudfiles
-<pre>
-  npm install cloudfiles
-</pre>
+``` js 
+  $ npm install cloudfiles
+```
 
 ### [Getting Rackspace Account][4]
 
@@ -22,7 +22,8 @@ The node-cloudfiles library is compliant with the [Rackspace CloudFiles API][0].
 
 ### Getting Started
 Before we can do anything with cloudfiles, we have to create a client with valid credentials. Cloudfiles will authenticate for you automatically: 
-<pre>
+
+``` js 
   var cloudfiles = require('cloudfiles');
   var config = {
     auth : {
@@ -30,48 +31,58 @@ Before we can do anything with cloudfiles, we have to create a client with valid
       apiKey: 'your-api-key'
     }
   };
+  
   var client = cloudfiles.createClient(config);
-</pre>
+``` js 
 
 ### Working with Containers
 Rackspace Cloudfiles divides files into 'Containers'. These are very similar to S3 Buckets if you are more familiar with Amazon. There are a couple of simple operations exposed by node-cloudfiles:
 
-<pre>
+``` js 
   // Creating a container
-  client.createContainer('myContainer', function (err, container) {
-    // Listing files in the Container 
-    container.getFiles(function (err, files) {
-      
+  client.setAuth(function () {
+    client.createContainer('myContainer', function (err, container) {
+      // Listing files in the Container 
+      container.getFiles(function (err, files) {
+
+      });
     });
   });
-</pre>
+```
 
 ### Uploading and Downloading Files
 Each Container has a set of 'StorageObjects' (or files) which can be retrieved via a Cloudfiles client. Files are downloaded to a local file cache that can be configured per client.
 
-<pre>
-  // Uploading a file
-  client.addFile('myContainer', 'remoteName.txt', 'path/to/local/file.txt', function (err, uploaded) {
-    // File has been uploaded
-  });
-  
-  // Downloading a file
-  client.getFile('myContainer', 'remoteName.txt', function (err, file) {
-    // File has been downloaded
-    
-    // Save it to a location outside the cache
-    file.save({ local: 'path/to/local/file.txt' }, function (err, filename) {
-      // File has been saved.
+``` js 
+  client.createContainer('myContainer', function (err, container) {
+    //
+    // Uploading a file
+    //
+    client.addFile('myContainer', 'remoteName.txt', 'path/to/local/file.txt', function (err, uploaded) {
+      // File has been uploaded
     });
-    
+  
+    //
+    // Downloading a file
+    //
+    client.getFile('myContainer', 'remoteName.txt', function (err, file) {
+      //
+      // Save it to a location outside the cache
+      //
+      file.save({ local: 'path/to/local/file.txt' }, function (err, filename) {
+        //
+        // File has been saved.
+        //
+      });
+    });
   });
-</pre>
+```
 
 ## Authentication Service
 
 Use the 'host' key in the auth configuration to specify the url to use for authentication:
 
-<pre>
+``` js 
   var cloudfiles = require('cloudfiles');
   var config = {
     auth : {
@@ -80,8 +91,9 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
       host : "lon.auth.api.rackspacecloud.com"
     }
   };
+
   var client = cloudfiles.createClient(config);
-</pre>
+``` 
 
 ## Roadmap
 
@@ -89,19 +101,21 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
 
 ## Run Tests
 All of the node-cloudservers tests are written in [vows][2], and cover all of the use cases described above. You will need to add your Rackspace API username and API key to test/fixtures/test-config.json before running tests:
-<pre>
+
+``` json
   {
     "auth": {
       "username": "your-username",
       "apiKey": "your-apikey"
     }
   }
-</pre>
+```
 
 Once you have valid Rackspace credentials you can run tests with [vows][2]:
-<pre>
+
+``` bash 
   vows test/*-test.js --spec
-</pre>
+```
 
 #### Author: [Charlie Robbins](http://www.charlierobbins.com)
 #### Contributors: [Fedor Indutny](http://github.com/donnerjack13589), [aaronds](https://github.com/aaronds)
