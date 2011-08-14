@@ -12,7 +12,9 @@
   },
   "keywords": ["cloud computing", "api", "rackspace cloud", "cloudfiles"],
   "dependencies": {
-    "request": "1.9.x"
+    "async": "0.1.x",
+    "mkdir": "0.0.x",
+    "request": "2.0.x"
   },
   "devDependencies": {
     "vows": "0.5.x"
