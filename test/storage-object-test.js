@@ -18,33 +18,57 @@ var path = require('path'),
 var testData = {}, client = helpers.createClient(), 
     sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')).toString();
 
-vows.describe('node-cloudfiles/storage-object').addBatch({
+vows.describe('node-cloudfiles/storage-object').addBatch(helpers.requireAuth(client)).addBatch({
   "The node-cloudfiles client": {
     "the addFile() method": {
       topic: function () {
-        client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
+        var ustream = client.addFile('test_container', {
+          remote: 'file1.txt',
+          local: path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')
+        }, function () { });
+        
+        ustream.on('end', this.callback);
       },
-      "should respond with true": function (err, uploaded) {
-        assert.isTrue(uploaded);
+      "should raise the `end` event": function () {
+        assert.isTrue(true);
       }
-    },
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
     "the addFile() method called a second time": {
       topic: function () {
-        client.addFile('test_container', 'file2.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
+        var ustream = client.addFile('test_container', {
+          remote: 'file2.txt',
+          local: path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')
+        }, function () { });
+        
+        ustream.on('end', this.callback)
       },
-      "should respond with true": function (err, uploaded) {
-        assert.isTrue(uploaded);
+      "should raise the `end` event": function () {
+        assert.isTrue(true);
       }
-    },
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
     "the addFile() method with a pre-provided read stream": {
       topic: function () {
-        var fileName = path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt');
-        var readStream = fs.createReadStream(fileName);
-        var options = { headers: {'Content-Length': fs.statSync(fileName).size }};
-        client.addFileFromStream('test_container', 'file3.txt', readStream, options, this.callback);
+        var fileName = path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'),
+            readStream = fs.createReadStream(fileName),
+            headers = { 'content-length': fs.statSync(fileName).size },
+            ustream;
+            
+        ustream = client.addFile('test_container', {
+          remote: 'file3.txt',
+          stream: readStream,
+          headers: headers
+        }, this.callback);
+        
+        ustream.on('end', this.callback);
       },
-      "should respond with true": function (err, uploaded) {
-        assert.isTrue(uploaded);
+      "should raise the `end` event": function () {
+        assert.isTrue(true);
       }
     }
   }
@@ -81,8 +105,11 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       "the save() method": {
         topic: function () {
           var self = this;
-          testData.file.save({ local: path.join(__dirname, 'fixtures', 'fillerama2.txt') }, function (err, filename) {
-            if (err) return self.callback(err);
+          testData.file.save({ local: path.join(__dirname, 'fixtures', 'fillerama3.txt') }, function (err, filename) {
+            if (err) {
+              return self.callback(err);
+            }
+            
             fs.stat(filename, self.callback)
           });
         },

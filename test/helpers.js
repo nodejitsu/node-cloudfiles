@@ -6,16 +6,16 @@
  *
  */
 
-require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
- 
 var util = require('util'),
     fs = require('fs'),
     path = require('path'),
     vows = require('vows'),
     assert = require('assert'),
-    cloudfiles = require('cloudfiles');
+    cloudfiles = require('../lib/cloudfiles');
 
-var testConfig, client, helpers = exports;
+var helpers = exports,
+    testConfig, 
+    client; 
 
 helpers.loadConfig = function () {
   try {
@@ -40,8 +40,13 @@ helpers.loadConfig = function () {
 };
 
 helpers.createClient = function () {
-  if (!testConfig) helpers.loadConfig();
-  if (!client) client = cloudfiles.createClient(testConfig);
+  if (!testConfig) {
+    helpers.loadConfig();
+  }
+  
+  if (!client) {
+    client = cloudfiles.createClient(testConfig);
+  }
   
   return client;
 };
@@ -67,7 +72,7 @@ helpers.assertFile = function (file) {
   assert.instanceOf(file, cloudfiles.StorageObject);
   assert.isNotNull(file.name);
   assert.isNotNull(file.bytes);
-  assert.isNotNull(file.hash);
+  assert.isNotNull(file.etag || file.hash);
   assert.isNotNull(file.lastModified);
   assert.isNotNull(file.contentType);
 };
@@ -79,4 +84,21 @@ helpers.countTestContainers = function (containers) {
 		}
 		return count;
 	}, 0);
+};
+
+helpers.requireAuth = function () {
+  return {
+    "This test required Rackspace authorization": {
+      topic: function () {
+        if (client.authorized) {
+          return this.callback();
+        }
+        
+        client.setAuth(this.callback);
+      },
+      "the client is now authorized": function () {
+        assert.isTrue(client.authorized);
+      }
+    }
+  }
 };

@@ -115,10 +115,15 @@ vows.describe('node-cloudfiles/containers').addBatch({
     "an instance of a Container object": {
       "the addFile() method": {
         topic: function () {
-          client.addFile('test_container', 'file1.txt', path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'), this.callback);
+          var ustream = client.addFile('test_container', {
+            remote: 'file1.txt',
+            local: path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')
+          }, function () { });
+          
+          ustream.on('end', this.callback)
         },
-        "should respond with true": function (err, uploaded) {
-          assert.isTrue(uploaded);
+        "should raise the `end` event": function () {
+          assert.isTrue(true);
         }
       }
     }
