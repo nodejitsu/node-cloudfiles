@@ -2,5 +2,6 @@
 .cache/
 .cache/*
 test/fixtures/test-config.json
+test/fixtures/fillerama3.txt
 node_modules
 npm-debug.log
