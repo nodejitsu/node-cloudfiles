@@ -77,6 +77,17 @@ helpers.assertFile = function (file) {
   assert.isNotNull(file.contentType);
 };
 
+helpers.assertEqualBuffers = function (a, b) {
+  var result = a.length === b.length,
+      i = 0;
+
+  for (var len = a.length; result && i < len; i++) {
+    if (a[i] !== b[i]) result = false;
+  }
+
+  return result;
+};
+
 helpers.countTestContainers = function (containers) {
 	return containers.reduce(function (count,container) {
 		if (container.name == "test_container" || container.name == "test_cdn_container") {
