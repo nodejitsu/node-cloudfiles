@@ -1,5 +1,5 @@
 /*
- * container-test.js: Tests for rackspace cloudfiles containers
+ * container-destroy-test.js: Tests for destroying Rackspace Cloudfiles containers
  *
  * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE

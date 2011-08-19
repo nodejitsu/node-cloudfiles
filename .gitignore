@@ -3,5 +3,6 @@
 .cache/*
 test/fixtures/test-config.json
 test/fixtures/fillerama3.txt
+test/fixtures/bigfile.raw
 node_modules
 npm-debug.log

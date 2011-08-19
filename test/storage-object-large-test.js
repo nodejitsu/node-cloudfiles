@@ -1,5 +1,5 @@
 /*
- * container-test.js: Tests for rackspace cloudfiles containers
+ * container-test.js: Tests for Rackspace Cloudfiles containers
  *
  * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE
@@ -15,27 +15,17 @@ var path = require('path'),
     cloudfiles = require('cloudfiles'),
     helpers = require('./helpers');
 
-var testData = {}, client = helpers.createClient(),
-    container = 'test-big',
+var testData = {}, 
+    container = 'test_container',
+    client = helpers.createClient(),
     sampleData = new Buffer(3 * 1024 * 1024),
     sampleFile = path.join(__dirname, '..', 'test', 'fixtures', 'bigfile.raw');
 
 fs.writeFileSync(sampleFile, sampleData);
 
-vows.describe('node-cloudfiles/storage-big-object')
-    .addBatch(helpers.requireAuth(client))
-    .addBatch({
-      "The node-cloudfiles client": {
-        "the .createContainer() method": {
-          topic: function () {
-            client.createContainer(new (cloudfiles.Container)(client, {
-              name: container
-            }), this.callback);
-          },
-          "should be successfull": function () {}
-        }
-      }
-    }).addBatch({
+vows.describe('node-cloudfiles/storage-object/large').addBatch(
+  helpers.requireAuth(client)
+).addBatch({
   "The node-cloudfiles client": {
     "the addFile() method": {
       topic: function () {
@@ -92,16 +82,6 @@ vows.describe('node-cloudfiles/storage-big-object')
           assert.isNull(err);
           assert.isTrue(deleted);
         }
-      }
-    }
-  }
-}).addBatch({
-  "The node-cloudfiles client": {
-    "the destroyContainer() method": {
-      topic: function() {
-        client.destroyContainer(container, this.callback);
-      },
-      "should be successfull": function() {
       }
     }
   }

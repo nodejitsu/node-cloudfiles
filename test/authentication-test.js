@@ -1,5 +1,5 @@
 /*
- * authentication-test.js: Tests for rackspace cloudfiles authentication
+ * authentication-test.js: Tests for Rackspace Cloudfiles authentication
  *
  * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE

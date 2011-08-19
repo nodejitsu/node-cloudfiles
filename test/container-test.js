@@ -1,5 +1,5 @@
 /*
- * container-test.js: Tests for rackspace cloudfiles containers
+ * container-test.js: Tests for Rackspace Cloudfiles containers
  *
  * (C) 2010 Nodejitsu Inc.
  * MIT LICENSE
@@ -15,7 +15,8 @@ var path = require('path'),
     cloudfiles = require('cloudfiles'),
     helpers = require('./helpers');
 
-var testData = {}, client = helpers.createClient(),
+var testData = {}, 
+    client = helpers.createClient(),
     sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')).toString();
 
 vows.describe('node-cloudfiles/containers').addBatch({
