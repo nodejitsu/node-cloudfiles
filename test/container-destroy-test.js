@@ -6,12 +6,10 @@
  *
  */
 
-require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
-
 var path = require('path'),
     vows = require('vows'),
     assert = require('assert'),
-    cloudfiles = require('cloudfiles'),
+    cloudfiles = require('../lib/cloudfiles'),
     helpers = require('./helpers');
 
 var client = helpers.createClient();

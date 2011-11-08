@@ -6,13 +6,11 @@
  *
  */
 
-require.paths.unshift(require('path').join(__dirname, '..', 'lib'));
- 
 var path = require('path'),
     fs = require('fs'),
     vows = require('vows'),
     assert = require('assert'),
-    cloudfiles = require('cloudfiles'),
+    cloudfiles = require('../lib/cloudfiles'),
     helpers = require('./helpers');
 
 var testData = {}, 
@@ -138,9 +136,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a list of files": function (err, files) {
           assert.isArray(files);
-          assert.length(files, 1); 
+          assert.lengthOf(files, 1);
           assert.isArray(testData.container.files);
-          assert.length(testData.container.files, 1);
+          assert.lengthOf(testData.container.files, 1);
         }
       }
     }
@@ -154,9 +152,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a list of files with content": function (err, files) {
           assert.isArray(files);
-          assert.length(files, 1); 
+          assert.lengthOf(files, 1);
           assert.isArray(testData.container.files);
-          assert.length(testData.container.files, 1);
+          assert.lengthOf(testData.container.files, 1);
           assert.isNotNull(files[0].local);
         }
       }
@@ -171,9 +169,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a list of files with content": function (err, files) {
           assert.isArray(files);
-          assert.length(files, 1); 
+          assert.lengthOf(files, 1);
           assert.isArray(testData.container.files);
-          assert.length(testData.container.files, 1);
+          assert.lengthOf(testData.container.files, 1);
           assert.isTrue(/^file/.test(files[0].name));
         }
       }
@@ -188,9 +186,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a empty list": function (err, files) {
           assert.isArray(files);
-          assert.length(files, 0); 
+          assert.lengthOf(files, 0);
           assert.isArray(testData.container.files);
-          assert.length(testData.container.files, 0);
+          assert.lengthOf(testData.container.files, 0);
         }
       }
     }
@@ -204,9 +202,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a list of files with content": function (err, files) {
           assert.isArray(files);
-          assert.length(files, 1); 
+          assert.lengthOf(files, 1);
           assert.isArray(testData.container.files);
-          assert.length(testData.container.files, 1);
+          assert.lengthOf(testData.container.files, 1);
           assert.equal(files[0].name, 'file1.txt');
         }
       }
@@ -221,7 +219,7 @@ vows.describe('node-cloudfiles/containers').addBatch({
         },
         "should response with a error": function (err, files) {
           assert.isArray(err);
-          assert.length(err, 1); 
+          assert.lengthOf(err, 1);
           assert.instanceOf(err[0], Error);          
         }
       }
