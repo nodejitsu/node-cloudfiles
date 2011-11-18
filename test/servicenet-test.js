@@ -24,7 +24,7 @@ var client = helpers.createClient(),
     
 vows.describe('node-cloudfiles/servicenet').addBatch({
   "The node-cloudfiles client": {
-    "with valid credentials and not specifying Service Net transfer": {
+    "with valid credentials and not specifying ServiceNet transfer": {
       topic: function () {
         client.setAuth(this.callback);
       },
@@ -36,12 +36,12 @@ vows.describe('node-cloudfiles/servicenet').addBatch({
         assert.include(res.headers, 'x-cdn-management-url');
         assert.include(res.headers, 'x-auth-token');
       },
-      "should update the config with non-Service Net storage url": function (err, res) {
+      "should update the config with non-ServiceNet storage url": function (err, res) {
         assert.equal(res.headers['x-storage-url'], client.config.storageUrl);
         assert.ok(client.config.storageUrl.substring(0, 13) != 'https://snet-');
       }
     },
-    "with valid credentials and specifying Service Net transfer": {
+    "with valid credentials and specifying ServiceNet transfer": {
       topic: function () {
         snClient.setAuth(this.callback);
       },
@@ -53,7 +53,7 @@ vows.describe('node-cloudfiles/servicenet').addBatch({
         assert.include(res.headers, 'x-cdn-management-url');
         assert.include(res.headers, 'x-auth-token');
       },
-      "should update the config with non-Service Net storage url": function (err, res) {
+      "should update the config with non-ServiceNet storage url": function (err, res) {
         assert.notEqual(res.headers['x-storage-url'], snClient.config.storageUrl);
         assert.ok(snClient.config.storageUrl.substring(0, 13) == 'https://snet-');
       }
