@@ -58,7 +58,7 @@ Each Container has a set of 'StorageObjects' (or files) which can be retrieved v
     //
     // Uploading a file
     //
-    client.addFile('myContainer', 'remoteName.txt', 'path/to/local/file.txt', function (err, uploaded) {
+    client.addFile('myContainer', { remote: 'remoteName.txt', local: 'path/to/local/file.txt' }, function (err, uploaded) {
       // File has been uploaded
     });
   
@@ -94,6 +94,28 @@ Use the 'host' key in the auth configuration to specify the url to use for authe
 
   var client = cloudfiles.createClient(config);
 ``` 
+
+## Transfer over ServiceNet
+
+Rackspace Cloud Servers have a private interface, known as ServiceNet, that is unmetered and has double the throughput of the public interface.  When transferring files between a Cloud Server and Cloud Files, ServiceNet can be used instead of the public interface.
+
+By default, ServiceNet is not used.  To use ServiceNet for the transfer, set the 'servicenet' key to `true` in your client config:
+
+``` js 
+  var cloudfiles = require('cloudfiles');
+  var config = {
+    auth : {
+      username: 'your-username',
+      apiKey: 'your-api-key',
+      host : "lon.auth.api.rackspacecloud.com"
+    },
+    servicenet: true
+  };
+
+  var client = cloudfiles.createClient(config);
+``` 
+
+NOTE: ServiceNet can only be used to transfer files between Cloud Servers and Cloud Files within the same datacenter.  Rackspace support can migrate both Cloud Servers and Cloud Files to the same datacenter if needed.
 
 ## Roadmap
 
