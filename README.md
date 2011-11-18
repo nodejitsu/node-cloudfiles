@@ -58,7 +58,7 @@ Each Container has a set of 'StorageObjects' (or files) which can be retrieved v
     //
     // Uploading a file
     //
-    client.addFile('myContainer', 'remoteName.txt', 'path/to/local/file.txt', function (err, uploaded) {
+    client.addFile('myContainer', { remote: 'remoteName.txt', local: 'path/to/local/file.txt' }, function (err, uploaded) {
       // File has been uploaded
     });
   
