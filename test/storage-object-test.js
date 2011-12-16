@@ -129,6 +129,14 @@ vows.describe('node-cloudfiles/storage-object').addBatch(helpers.requireAuth(cli
           assert.isTrue(deleted);
         }
       }
+    , "for a file that does not exist": {
+        topic: function () {
+          client.destroyFile('test_container', 'file0.txt', this.callback);
+        },
+        "should return error": function (err, deleted) {
+          assert.ok(err instanceof Error);
+        }
+      }
     }
   }
 }).addBatch({
