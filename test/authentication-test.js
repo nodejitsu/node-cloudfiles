@@ -49,7 +49,8 @@ vows.describe('node-cloudfiles/authentication').addBatch({
         
         invalidClient.setAuth(this.callback);
       },
-      "should respond with 401": function (err, res) {
+      "should respond with 401 and return an error": function (err, res) {
+        assert.ok(err instanceof Error);
         assert.equal(res.statusCode, 401);
       }
     },
