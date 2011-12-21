@@ -12,8 +12,9 @@ var path = require('path'),
     helpers = require('./helpers'),
     cloudfiles = require('../lib/cloudfiles');
     
-var client = helpers.createClient();
     
+var client = helpers.createClient();
+
 vows.describe('node-cloudfiles/authentication').addBatch({
   "The node-cloudfiles client": {
     "with a valid username and api key": {
@@ -21,6 +22,7 @@ vows.describe('node-cloudfiles/authentication').addBatch({
         client.setAuth(this.callback);
       },
       "should respond with 204 and appropriate headers": function (err, res) {
+        assert.isNull(err);
         assert.equal(res.statusCode, 204); 
         assert.isObject(res.headers);
         assert.include(res.headers, 'x-server-management-url');
@@ -29,6 +31,7 @@ vows.describe('node-cloudfiles/authentication').addBatch({
         assert.include(res.headers, 'x-auth-token');
       },
       "should update the config with appropriate urls": function (err, res) {
+        assert.isNull(err);
         assert.equal(res.headers['x-server-management-url'], client.config.serverUrl);
         assert.equal(res.headers['x-storage-url'], client.config.storageUrl);
         assert.equal(res.headers['x-cdn-management-url'], client.config.cdnUrl);
