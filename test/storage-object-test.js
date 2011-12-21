@@ -68,6 +68,23 @@ vows.describe('node-cloudfiles/storage-object').addBatch(helpers.requireAuth(cli
       "should raise the `end` event": function () {
         assert.isTrue(true);
       }
+    },
+    "the addFile() method using a stream without a predefined length": {
+      topic: function () {
+        var fileName = path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt'),
+            readStream = fs.createReadStream(fileName),
+            ustream;
+            
+        ustream = client.addFile('test_container', {
+          remote: 'file3.txt',
+          stream: readStream
+        }, this.callback);
+        
+        ustream.on('end', this.callback);
+      },
+      "should raise the `end` event": function () {
+        assert.isTrue(true);
+      }
     }
   }
 }).addBatch({

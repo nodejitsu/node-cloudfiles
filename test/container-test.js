@@ -118,8 +118,9 @@ vows.describe('node-cloudfiles/containers').addBatch({
             remote: 'file1.txt',
             local: path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')
           }, function () { });
-          
-          ustream.on('end', this.callback)
+          if (ustream) {
+            ustream.on('end', this.callback)
+          }
         },
         "should raise the `end` event": function () {
           assert.isTrue(true);
