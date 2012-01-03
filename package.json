@@ -15,10 +15,10 @@
     "async": "0.1.x",
     "mime": "1.2.x",
     "pkginfo": "0.2.x",
-    "request": "2.0.x"
+    "request": "2.x.x"
   },
   "devDependencies": {
-    "vows": "0.5.x"
+    "vows": "0.6.x"
   },
   "main": "./lib/cloudfiles",
   "scripts": { "test": "vows test/*-test.js --spec" },
