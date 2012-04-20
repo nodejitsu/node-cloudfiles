@@ -116,6 +116,29 @@ vows.describe('node-cloudfiles/storage-object').addBatch(helpers.requireAuth(cli
   }
 }).addBatch({
   "The node-cloudfiles client": {
+    "the getFileInfo() method": {
+      "for a file that exists": {
+        topic: function () {
+          client.getFileInfo('test_container', 'file2.txt', this.callback);
+        },
+        "should return a valid StorageObject": function (err, file) {
+          helpers.assertFile(file);
+          assert.isNull(file.local);
+          testData.file = file;
+        }
+      }
+    , "for a file that does not exist": {
+        topic: function () {
+          client.getFileInfo('test_container', 'file0.txt', this.callback);
+        },
+        "should return an error": function (err, file) {
+          assert.ok(err instanceof Error);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "The node-cloudfiles client": {
     "an instance of StorageObject": {
       "the save() method": {
         topic: function () {
