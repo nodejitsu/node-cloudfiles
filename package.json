@@ -1,7 +1,7 @@
 {
   "name": "cloudfiles",
   "description": "A client implementation for Rackspace CloudFiles in node.js",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "maintainers": [
     "indexzero <charlie@nodejitsu.com>",
