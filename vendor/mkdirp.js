@@ -6,7 +6,7 @@ exports.mkdirp = exports.mkdirP = function mkdirP (p, mode, f) {
     if (p.charAt(0) != '/') { cb(new Error('Relative path: ' + p)); return }
     
     var ps = path.normalize(p).split('/');
-    path.exists(p, function (exists) {
+    fs.exists(p, function (exists) {
         if (exists) cb(null);
         else mkdirP(ps.slice(0,-1).join('/'), mode, function (err) {
             if (err && err.code !== 'EEXIST') cb(err)
