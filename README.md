@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/nodejitsu/node-cloudfiles.png)](http://travis-ci.org/nodejitsu/node-cloudfiles)
 # node-cloudfiles
 
 A client implementation for Rackspace CloudFiles in node.js
