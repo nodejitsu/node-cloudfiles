@@ -22,7 +22,7 @@ exports.mkdirpSync = exports.mkdirPSync = function mkdirPSync (p, mode) {
   if (p.charAt(0) != '/') { throw new Error('Relative path: ' + p); return; }
   
   var ps = path.normalize(p).split('/'),
-      exists = path.existsSync(p);
+      exists = (fs.existsSync ? fs.existsSync(p) : path.existsSync(p));
   
   function tryMkdirSync () {
       try { fs.mkdirSync(p, mode); }
