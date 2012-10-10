@@ -14,8 +14,8 @@ var util = require('util'),
     cloudfiles = require('../lib/cloudfiles');
 
 var helpers = exports,
-    testConfig, 
-    client; 
+    testConfig,
+    client;
 
 helpers.loadConfig = function () {
   try {
@@ -31,23 +31,24 @@ helpers.loadConfig = function () {
 
     testConfig = config;
     return config;
-    
+
   }
   catch (ex) {
+    console.log(ex);
     util.puts('Config file test/fixtures/test-config.json must be created with valid data before running tests.');
     process.exit(0);
-  }  
+  }
 };
 
 helpers.createClient = function () {
   if (!testConfig) {
     helpers.loadConfig();
   }
-  
+
   if (!client) {
     client = cloudfiles.createClient(testConfig);
   }
-  
+
   return client;
 };
 
@@ -59,7 +60,7 @@ helpers.assertContainer = function (container) {
 };
 
 helpers.assertCdnContainer = function (container) {
-  helpers.assertContainer(container); 
+  helpers.assertContainer(container);
   assert.isTrue(typeof container.ttl === 'number');
   assert.isTrue(typeof container.logRetention === 'boolean');
   assert.isTrue(typeof container.cdnUri === 'string');
@@ -104,7 +105,7 @@ helpers.requireAuth = function () {
         if (client.authorized) {
           return this.callback();
         }
-        
+
         client.setAuth(this.callback);
       },
       "the client is now authorized": function () {
