@@ -17,7 +17,7 @@ var testData = {},
     client = helpers.createClient(), 
     sampleData = fs.readFileSync(path.join(__dirname, '..', 'test', 'fixtures', 'fillerama.txt')).toString();
 
-vows.describe('node-cloudfiles/storage-object').addBatch({
+vows.describe('node-cloudfiles/storage-object').addBatch(helpers.requireAuth(client)).addBatch({
   "The node-cloudfiles client": {
     "an instance of a Container object": {
       "the addFile() method": {
@@ -49,14 +49,16 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       }
     }
   }
-})/*.addBatch({
+}).addBatch({
   "The node-cloudfiles client": {
     "the addMetadata() method": {
       topic: function () {
-        testData.file.addMetadata({ "ninja": "true" }, this.callback); 
+        testData.metadata = { "ninja-metadata": "true" };
+        testData.file.addMetadata(testData.metadata, this.callback); 
       },
       "should response with true": function (err, added) {
         assert.isTrue(added);
+        assert.deepEqual(testData.file.metadata, testData.metadata);
       }
     }
   }
@@ -66,12 +68,12 @@ vows.describe('node-cloudfiles/storage-object').addBatch({
       topic: function () {
         testData.file.getMetadata(this.callback); 
       },
-      "should response with true": function (err, added) {
-        assert.isTrue(added);
+      "should return the metadata as an object": function (err, metadata) {
+        assert.deepEqual(metadata, testData.metadata);
       }
     }
   }
-})*/.addBatch({
+}).addBatch({
   "The node-cloudfiles client": {
     "the destroyFile() method": {
       "for a file that exists": {
