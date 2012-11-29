@@ -11,8 +11,8 @@ var path = require('path'),
     assert = require('assert'),
     helpers = require('./helpers'),
     cloudfiles = require('../lib/cloudfiles');
-    
-    
+
+
 var client = helpers.createClient();
 
 vows.describe('node-cloudfiles/authentication').addBatch({
@@ -23,7 +23,7 @@ vows.describe('node-cloudfiles/authentication').addBatch({
       },
       "should respond with 204 and appropriate headers": function (err, res) {
         assert.isNull(err);
-        assert.equal(res.statusCode, 204); 
+        assert.equal(res.statusCode, 204);
         assert.isObject(res.headers);
         assert.include(res.headers, 'x-server-management-url');
         assert.include(res.headers, 'x-storage-url');
@@ -40,13 +40,13 @@ vows.describe('node-cloudfiles/authentication').addBatch({
     },
     "with an invalid username and api key": {
       topic: function () {
-        var invalidClient = cloudfiles.createClient({ 
+        var invalidClient = cloudfiles.createClient({
           auth: {
-            username: 'invalid-username', 
+            username: 'invalid-username',
             apiKey: 'invalid-apikey'
           }
         });
-        
+
         invalidClient.setAuth(this.callback);
       },
       "should respond with 401 and return an error": function (err, res) {
@@ -55,4 +55,5 @@ vows.describe('node-cloudfiles/authentication').addBatch({
       }
     },
   }
+
 }).export(module);
