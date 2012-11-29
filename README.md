@@ -1,5 +1,7 @@
 # node-cloudfiles
 
+**THIS LIBRARY IS DEPRECATED. ALL FIXES SHOULD BE DIRECTED to [pkgcloud](https://github.com/nodejitsu/pkgcloud)**
+
 A client implementation for Rackspace CloudFiles in node.js
 
 ## Installation
